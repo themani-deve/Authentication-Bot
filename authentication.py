@@ -1,7 +1,7 @@
 from shared import bot
 import sqlite3
 
-connection = sqlite3.connect('user.db', check_same_thread=False)
+connection = sqlite3.connect('sqlite3.db', check_same_thread=False)
 cursor = connection.cursor()
 
 sample_data_query = """
@@ -44,7 +44,7 @@ def send_saved_message(message):
     tuple_info = tuple(info)
     sample_data = tuple_info
 
-    with sqlite3.connect('user.db') as connection:
+    with sqlite3.connect('sqlite3.db') as connection:
         cursor = connection.cursor()
         cursor.execute(sample_data_query, sample_data)
     info.clear()
