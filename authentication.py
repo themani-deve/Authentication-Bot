@@ -1,11 +1,5 @@
-import telebot
+from shared import bot
 import sqlite3
-from telebot.types import ReplyKeyboardMarkup
-
-bot = telebot.TeleBot('API')
-
-reply_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-reply_keyboard.add('ثبت نام', 'ورود', 'مهمان')
 
 connection = sqlite3.connect('user.db', check_same_thread=False)
 cursor = connection.cursor()
@@ -18,12 +12,6 @@ sample_data_query = """
 info = []
 
 
-@bot.message_handler(commands=['start'])
-def welcome(message):
-    bot.reply_to(message, 'سلام به ربات مانی خوش اومدی. نظرت با ثبت نام چیه؟', reply_markup=reply_keyboard)
-
-
-@bot.message_handler(func=lambda message: message.text == 'ثبت نام')
 def register(message):
     bot.send_message(message.chat.id, 'نام شما چیست؟')
     bot.register_next_step_handler(message, receive_phone_number)
@@ -62,7 +50,6 @@ def send_saved_message(message):
     info.clear()
 
 
-@bot.message_handler(func=lambda message: message.text == 'ورود')
 def login(message):
     bot.send_message(message.chat.id, 'لطفا شماره تلفن خود را وارد کنید.')
     bot.register_next_step_handler(message, check_phone_number)
@@ -87,6 +74,3 @@ def check_password(message):
     else:
         bot.send_message(message.chat.id, 'رمز عبور نادرست است')
         bot.register_next_step_handler(message, check_password)
-
-
-bot.polling()
