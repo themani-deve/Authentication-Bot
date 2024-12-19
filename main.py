@@ -14,7 +14,6 @@ messages_list = []
 
 
 def welcome(message):
-    print(message.chat.id)
     bot.reply_to(message, 'سلام به ربات مانی خوش اومدی. نظرت با ثبت نام چیه؟', reply_markup=reply_keyboard)
 
 
@@ -28,6 +27,7 @@ def channels_name(message):
 
 
 def channel_name_selected(message):
-    messages_list.append(message.text)
+    cursor.execute('SELECT * FROM channels WHERE channel_name == ?', (message.text,))
+    channel = cursor.fetchall()
+    messages_list.append(channel[0][2])
     bot.send_message(message.chat.id, 'appended!')
-    print(messages_list)

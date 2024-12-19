@@ -27,8 +27,7 @@ def handle_channels_name(message):
 @bot.message_handler(func=lambda message: message.text == 'share')
 def handle_share_message(message):
     from main import messages_list
-    print(messages_list)
-    share_message(message)
+    share_message(message=message, messages=messages_list)
 
 
 @bot.message_handler(func=lambda message: True)
